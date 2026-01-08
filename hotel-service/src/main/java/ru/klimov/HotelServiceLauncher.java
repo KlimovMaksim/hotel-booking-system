@@ -2,11 +2,13 @@ package ru.klimov;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @SpringBootApplication
-public class HotelService {
+@EnableDiscoveryClient
+public class HotelServiceLauncher {
 
     public static void main(String[] args) {
-        SpringApplication.run(HotelService.class, args);
+        SpringApplication.run(HotelServiceLauncher.class, args);
     }
 }
