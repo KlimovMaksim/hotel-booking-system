@@ -2,11 +2,13 @@ package ru.klimov;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @SpringBootApplication
-public class BookingService {
+@EnableDiscoveryClient
+public class BookingServiceLauncher {
 
     public static void main(String[] args) {
-        SpringApplication.run(BookingService.class, args);
+        SpringApplication.run(BookingServiceLauncher.class, args);
     }
 }
