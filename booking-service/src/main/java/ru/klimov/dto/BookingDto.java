@@ -1,27 +1,22 @@
-package ru.klimov.entity;
+package ru.klimov.dto;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import ru.klimov.entity.BookingStatus;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Entity
 @Data
-public class Booking {
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class BookingDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-
-    @Column(unique = true)
-    private UUID requestId;
-
-    @ManyToOne
-    private User user;
 
     private UUID roomId;
 
@@ -29,7 +24,6 @@ public class Booking {
 
     private LocalDate endDate;
 
-    @Enumerated(EnumType.STRING)
     private BookingStatus status;
 
     private LocalDateTime createdAt;

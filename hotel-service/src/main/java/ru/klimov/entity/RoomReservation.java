@@ -1,17 +1,14 @@
 package ru.klimov.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
 @Data
-public class Booking {
+public class RoomReservation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -20,17 +17,13 @@ public class Booking {
     @Column(unique = true)
     private UUID requestId;
 
-    @ManyToOne
-    private User user;
-
-    private UUID roomId;
-
     private LocalDate startDate;
 
     private LocalDate endDate;
 
-    @Enumerated(EnumType.STRING)
-    private BookingStatus status;
+    @ManyToOne
+    private Room room;
 
-    private LocalDateTime createdAt;
+    @Enumerated(EnumType.STRING)
+    private RoomStatus status;
 }

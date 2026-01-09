@@ -4,7 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.klimov.controller.payload.RoomPayload;
+import ru.klimov.controller.payload.RoomReservationPayload;
+import ru.klimov.dto.RoomDto;
 import ru.klimov.entity.Room;
+import ru.klimov.service.RoomReservationService;
 import ru.klimov.service.RoomService;
 
 import java.util.List;
@@ -17,36 +20,30 @@ import java.util.UUID;
 public class RoomController {
 
     private final RoomService roomService;
-
-    @GetMapping
-    public List<Room> getAllRooms() {
-        return roomService.getAllRooms();
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Room> getRoomById(@PathVariable UUID id) {
-        return roomService.getRoomById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-    }
+    private final RoomReservationService roomReservationService;
 
     @PostMapping
-    public Room createRoom(@RequestBody RoomPayload roomPayload) {
+    public RoomDto createRoom(@RequestBody RoomPayload roomPayload) {
         return roomService.createRoom(roomPayload);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Room> updateRoom(@PathVariable UUID id, @RequestBody Room roomDetails) {
-        try {
-            return ResponseEntity.ok(roomService.updateRoom(id, roomDetails));
-        } catch (NoSuchElementException e) {
-            return ResponseEntity.notFound().build();
-        }
+    @GetMapping("/recommend")
+    public List<RoomDto> getRecommendRooms() {
+        return roomService.getRecommendRooms();
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteRoom(@PathVariable UUID id) {
-        roomService.deleteRoom(id);
-        return ResponseEntity.noContent().build();
+    @GetMapping
+    public List<RoomDto> getAllAvailableRooms() {
+        return roomService.getAllAvailableRooms();
+    }
+
+    @PostMapping("/{id}/confirm-availability")
+    public boolean confirmAvailability(@PathVariable("id") UUID id, @RequestBody RoomReservationPayload payload) {
+        return roomReservationService.confirmAvailability(id, payload);
+    }
+
+    @PostMapping("/{id}/release/{requestId}")
+    public void releaseRoom(@PathVariable("id") UUID id, @PathVariable("requestId") UUID requestId) {
+        roomReservationService.releaseRoom(requestId);
     }
 }

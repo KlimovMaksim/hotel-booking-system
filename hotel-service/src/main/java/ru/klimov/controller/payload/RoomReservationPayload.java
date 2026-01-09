@@ -1,20 +1,11 @@
 package ru.klimov.controller.payload;
 
 import lombok.Data;
-
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Data
-public class BookingPayload {
-
-    private UUID roomId;
-
-    private UUID userId;
-
+public class RoomReservationPayload {
     private LocalDate startDate;
-
     private LocalDate endDate;
-
-    private Boolean autoSelect;
+    private String requestId;
 }
