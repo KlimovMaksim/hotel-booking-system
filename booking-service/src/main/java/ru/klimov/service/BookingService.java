@@ -51,7 +51,7 @@ public class BookingService {
 
         UUID roomId = booking.getRoomId();
         restTemplate.postForObject(
-                "http://hotel-service/api/rooms/{id}/release/{requestId}",
+                "http://hotel-service/rooms/{id}/release/{requestId}",
                 null,
                 Void.class,
                 roomId,
@@ -69,7 +69,7 @@ public class BookingService {
         RoomReservationDto roomReservationDto = bookingMapper.toRoomReservationDto(booking);
 
         Boolean isConfirmed = restTemplate.postForObject(
-                "http://hotel-service/api/rooms/{id}/confirm-availability",
+                "http://hotel-service/rooms/{id}/confirm-availability",
                 roomReservationDto,
                 Boolean.class,
                 booking.getRoomId()
@@ -128,7 +128,7 @@ public class BookingService {
     }
 
     public List<RoomDto> getOffers() {
-        RoomDto[] rooms = restTemplate.getForObject("http://hotel-service/api/rooms/recommend", RoomDto[].class);
+        RoomDto[] rooms = restTemplate.getForObject("http://hotel-service/rooms/recommend", RoomDto[].class);
         return rooms != null ? Arrays.asList(rooms) : List.of();
     }
 

@@ -12,7 +12,7 @@ import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/hotels")
+@RequestMapping("/hotels")
 @RequiredArgsConstructor
 public class HotelController {
 

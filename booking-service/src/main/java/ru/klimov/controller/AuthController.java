@@ -11,7 +11,7 @@ import ru.klimov.dto.UserDto;
 import ru.klimov.service.UserService;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthController {
 

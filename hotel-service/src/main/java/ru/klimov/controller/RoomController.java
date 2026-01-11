@@ -15,7 +15,7 @@ import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/rooms")
+@RequestMapping("/rooms")
 @RequiredArgsConstructor
 public class RoomController {
 
