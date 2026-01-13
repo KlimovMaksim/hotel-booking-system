@@ -2,6 +2,7 @@ package ru.klimov.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.klimov.controller.payload.HotelPayload;
 import ru.klimov.entity.Hotel;
@@ -19,11 +20,13 @@ public class HotelController {
     private final HotelService hotelService;
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public List<Hotel> getAllHotels() {
         return hotelService.getAllHotels();
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public Hotel createHotel(@RequestBody HotelPayload hotelPayload) {
         return hotelService.createHotel(hotelPayload);
     }

@@ -1,31 +1,35 @@
 package ru.klimov.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.klimov.controller.payload.UserPayload;
-import ru.klimov.dto.UserDto;
-import ru.klimov.service.UserService;
+import ru.klimov.controller.payload.UserShortPayload;
+import ru.klimov.dto.TokenResponseDto;
+import ru.klimov.dto.UserResponseDto;
+import ru.klimov.service.AuthService;
 
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthController {
 
-    private final UserService userService;
+    private final AuthService authService;
 
+    @PreAuthorize("permitAll()")
     @PostMapping("/register")
-    public ResponseEntity<UserDto> register(@RequestBody UserPayload payload) {
-        return ResponseEntity.ok(userService.register(payload));
+    public ResponseEntity<UserResponseDto> register(@RequestBody UserPayload userPayload) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(authService.register(userPayload));
     }
 
+    @PreAuthorize("permitAll()")
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody UserPayload payload) {
-        return userService.login(payload)
-                .map(user -> ResponseEntity.ok("Login successful"))
-                .orElse(ResponseEntity.status(401).body("Invalid credentials"));
+    public ResponseEntity<TokenResponseDto> login(@RequestBody UserShortPayload userShortPayload) {
+        return ResponseEntity.ok(authService.login(userShortPayload));
     }
 }

@@ -12,13 +12,11 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDto {
+public class UserResponseDto {
 
     private UUID id;
 
     private String username;
-
-    private String password;
 
     private Role role;
 }
