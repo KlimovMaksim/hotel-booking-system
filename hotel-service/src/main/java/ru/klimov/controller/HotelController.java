@@ -1,16 +1,14 @@
 package ru.klimov.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.klimov.controller.payload.HotelPayload;
-import ru.klimov.entity.Hotel;
+import ru.klimov.dto.HotelDto;
 import ru.klimov.service.HotelService;
 
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/hotels")
@@ -19,15 +17,17 @@ public class HotelController {
 
     private final HotelService hotelService;
 
+    @Operation(summary = "Получить список всех отелей")
     @GetMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-    public List<Hotel> getAllHotels() {
+    public List<HotelDto> getAllHotels() {
         return hotelService.getAllHotels();
     }
 
+    @Operation(summary = "Создать новый отель")
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public Hotel createHotel(@RequestBody HotelPayload hotelPayload) {
+    public HotelDto createHotel(@RequestBody HotelPayload hotelPayload) {
         return hotelService.createHotel(hotelPayload);
     }
 }
